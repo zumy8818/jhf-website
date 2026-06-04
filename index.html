@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>㈱阿蘇J・Hファーム｜熊本県阿蘇郡産山村 和牛繁殖・一貫飼育</title>
+  <meta name="description" content="熊本県阿蘇郡産山村で和牛の繁殖・一貫飼育を行う㈱阿蘇J・Hファームの公式サイト。">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .top-hero {
+      height: 100vh;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .top-hero h1 { font-size: 2rem; letter-spacing: 0.3em; margin-bottom: 16px; }
+    .top-hero p { letter-spacing: 0.1em; color: #aaa; margin-bottom: 32px; }
+    .top-hero a { display: inline-block; padding: 14px 40px; border: 1px solid #fff; color: #fff; letter-spacing: 0.1em; font-size: 0.875rem; transition: background 0.25s; }
+    .top-hero a:hover { background: #fff; color: #1a1a1a; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo"><a href="index.html"><span class="logo-text">㈱阿蘇J・Hファーム</span></a></div>
+      <nav class="global-nav">
+        <ul>
+          <li><a href="index.html" class="active">TOP</a></li>
+          <li><a href="about/index.html">ABOUT</a></li>
+          <li><a href="message/index.html">MESSAGE</a></li>
+          <li><a href="system/index.html">SYSTEM</a></li>
+          <li><a href="blog/index.html">BLOG</a></li>
+          <li><a href="press/index.html">PRESS RELEASE</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" aria-label="メニュー" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <main>
+    <section class="top-hero">
+      <div>
+        <h1>㈱阿蘇J・Hファーム</h1>
+        <p>阿蘇の大自然で育てる和牛</p>
+        <a href="about/index.html">ABOUT →</a>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">㈱阿蘇J・Hファーム</div>
+      <p class="footer-address">熊本県阿蘇郡産山村大利665-1</p>
+      <p class="footer-copy"><small>&copy; 2024 Aso J&middot;H Farm Co., Ltd. All Rights Reserved.</small></p>
+    </div>
+  </footer>
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('.global-nav');
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('is-open');
+    });
+  </script>
+</body>
+</html>
