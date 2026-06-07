@@ -1,267 +1,413 @@
-/* ===== PAGE HERO ===== */
-.page-hero {
+/* ===== CSS変数（ABOUTページ専用カラーパレット） ===== */
+:root {
+  --color-green-deep: #2D4A2D;
+  --color-green-mid:  #4A7C4A;
+  --color-cream:      #F5F0E8;
+  --color-sand:       #E8DFC8;
+  --color-brown:      #6B4A2A;
+  --color-text:       #2A2A2A;
+  --color-text-muted: #666666;
+  --color-white:      #FFFFFF;
+}
+
+/* ===== フェードインアニメーション ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 共通レイアウト ===== */
+.about-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.about-section {
+  padding: 96px 0;
+}
+
+/* ===== セクション見出し共通 ===== */
+.about-section__label {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--color-green-mid);
+  text-align: center;
+  margin-bottom: 16px;
+}
+.about-section__label--light {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.about-section__title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.7;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.about-section__head {
+  margin-bottom: 56px;
+}
+
+/* ===== #hero：ヒーローセクション ===== */
+.about-hero {
   position: relative;
-  height: 420px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   overflow: hidden;
 }
 
-.page-hero__bg {
+.about-hero__bg {
   position: absolute;
   inset: 0;
+  background: linear-gradient(160deg, var(--color-green-deep) 0%, #1a2d1a 50%, #0d1f0d 100%);
 }
 
-.page-hero__bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.page-hero__overlay {
+/* 背景に風合いを加えるオーバーレイ */
+.about-hero__bg::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background: rgba(20, 15, 8, 0.45);
+  background: radial-gradient(ellipse at 30% 60%, rgba(74,124,74,0.25) 0%, transparent 60%);
 }
 
-.page-hero__content {
+.about-hero__content {
   position: relative;
-  text-align: center;
-  color: #fff;
+  z-index: 1;
+  padding: 80px 24px;
+  max-width: 700px;
 }
 
-.page-hero__title {
-  font-size: 3.5rem;
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+.about-hero__label {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.5em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 20px;
 }
 
-.page-hero__sub {
-  font-size: 1rem;
-  letter-spacing: 0.25em;
-  margin-top: 8px;
-  opacity: 0.85;
+/* ヒーロー区切り線 */
+.about-hero__content::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+  margin: 20px auto 0;
 }
 
-.breadcrumb {
+.about-hero__title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(1.25rem, 3vw, 1.875rem);
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0.1em;
+  color: var(--color-white);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* 下矢印アニメーション */
+.about-hero__arrow {
   position: absolute;
-  bottom: 20px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
 }
 
-.breadcrumb ol {
-  display: flex;
-  gap: 8px;
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.7);
-  letter-spacing: 0.05em;
+.about-hero__arrow span {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-right: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  transform: rotate(45deg);
+  animation: arrowBounce 1.8s ease infinite;
 }
 
-.breadcrumb a { color: rgba(255,255,255,0.7); }
-.breadcrumb a:hover { color: #fff; }
-.breadcrumb li + li::before { content: '›'; margin-right: 8px; }
-
-/* ===== 会社概要テーブル ===== */
-.company-profile { background: #fff; }
-
-.profile-table {
-  width: 100%;
-  border-collapse: collapse;
+@keyframes arrowBounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.5; }
+  50%       { transform: rotate(45deg) translateY(6px); opacity: 1; }
 }
 
-.profile-table th,
-.profile-table td {
-  padding: 18px 24px;
-  text-align: left;
-  border-bottom: 1px solid #e8e0d6;
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  vertical-align: top;
+/* ===== #story：創業ストーリー ===== */
+.about-story {
+  background: var(--color-cream);
 }
 
-.profile-table th {
-  width: 180px;
-  color: #6b5c47;
+.story-body {
+  max-width: 680px;
+  margin: 0 auto;
+  padding-left: 20px;
+  border-left: 3px solid var(--color-green-mid);
+}
+
+.story-body p {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  line-height: 2.1;
+  color: var(--color-text);
+  margin-bottom: 1.5em;
+}
+.story-body p:last-child { margin-bottom: 0; }
+
+/* 強調テキスト（茶色） */
+.story-emphasis {
+  color: var(--color-brown);
   font-weight: 700;
-  background: #faf7f3;
-  white-space: nowrap;
 }
 
-.profile-table tr:last-child th,
-.profile-table tr:last-child td {
-  border-bottom: none;
+/* ===== #land：農場環境 ===== */
+.about-land {
+  background: var(--color-sand);
 }
 
-/* ===== 農場紹介 ===== */
-.farm-intro { background: #faf7f3; }
-
-.farm-intro__grid {
+.land-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
 }
 
-.farm-intro__image img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-}
-
-.farm-intro__text h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #2c2c2c;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #8b7355;
-}
-
-.farm-intro__text p {
+.land-text p {
   font-size: 0.9375rem;
-  color: #555;
-  margin-bottom: 14px;
-  line-height: 1.9;
+  line-height: 2;
+  color: var(--color-text);
+  margin-bottom: 1.25em;
+}
+.land-text p:last-child { margin-bottom: 0; }
+
+/* 数字強調（100ha） */
+.land-number {
+  color: var(--color-green-mid);
+  font-weight: 700;
+  font-size: 1.1em;
 }
 
-/* ===== 沿革 タイムライン ===== */
-.history { background: #fff; }
+/* 写真プレースホルダー */
+.photo-placeholder {
+  background: #c8d8c8;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(45,74,45,0.5);
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+}
 
-.timeline {
-  position: relative;
-  max-width: 760px;
+/* ===== #numbers：数字セクション ===== */
+.about-numbers {
+  background: var(--color-green-deep);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.numbers-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 40px;
+}
+
+.numbers-card {
+  flex: 1;
+  padding: 16px 24px;
+}
+
+.numbers-value {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(2.5rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.numbers-desc {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.8125rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* 縦線区切り */
+.numbers-divider {
+  width: 1px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+/* ===== #message：代表者メッセージ ===== */
+.about-message {
+  background: var(--color-cream);
+}
+
+.message-grid {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+  max-width: 700px;
   margin: 0 auto;
 }
 
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 120px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: #d6ccc0;
+/* 丸型写真プレースホルダー */
+.photo-placeholder--circle {
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
+  border-radius: 50%;
+  aspect-ratio: unset;
+  font-size: 0.6875rem;
+  flex-shrink: 0;
 }
 
-.timeline__item {
-  display: flex;
-  gap: 48px;
-  padding: 28px 0;
-  border-bottom: 1px solid #f0ebe4;
+.message-text {
+  font-family: 'Noto Serif JP', serif;
+  font-style: italic;
+  color: var(--color-text);
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.message-text p {
+  font-size: 1rem;
+  line-height: 2.1;
+  margin-bottom: 1.25em;
+}
+
+.message-name {
+  display: block;
+  font-size: 0.875rem;
+  font-style: normal;
+  color: var(--color-text-muted);
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+
+/* ===== #vision：ビジョン ===== */
+.about-vision {
+  background: var(--color-sand);
+}
+
+.vision-body {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
   position: relative;
 }
 
-.timeline__item::after {
+/* 装飾線（前後） */
+.vision-body::before,
+.vision-body::after {
   content: '';
-  position: absolute;
-  left: 116px;
-  top: 36px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #8b7355;
-  border: 2px solid #fff;
-  box-shadow: 0 0 0 1px #8b7355;
-}
-
-.timeline__item--current::after {
-  background: #2c2c2c;
-  box-shadow: 0 0 0 1px #2c2c2c;
-  width: 13px;
-  height: 13px;
-  left: 114px;
-}
-
-.timeline__year {
-  min-width: 120px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #8b7355;
-  letter-spacing: 0.05em;
-  padding-top: 2px;
-  text-align: right;
-  padding-right: 0;
-}
-
-.timeline__item--current .timeline__year {
-  color: #2c2c2c;
-}
-
-.timeline__content {
-  font-size: 0.9375rem;
-  color: #444;
-  line-height: 1.75;
-  padding-top: 2px;
-}
-
-/* ===== アクセス ===== */
-.access { background: #faf7f3; }
-
-.access__grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 60px;
-  align-items: start;
-}
-
-.access__info h3 {
-  font-size: 1.0625rem;
-  font-weight: 700;
-  color: #2c2c2c;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d6ccc0;
-}
-
-.access__info address {
-  font-size: 0.9375rem;
-  color: #444;
-  margin-bottom: 20px;
-  line-height: 1.9;
-}
-
-.access__detail {
-  font-size: 0.875rem;
-  color: #555;
-  margin-bottom: 28px;
-}
-
-.access__detail dt {
-  font-weight: 700;
-  color: #6b5c47;
-  margin-top: 12px;
-}
-
-.access__detail dd {
-  margin-left: 12px;
-  line-height: 1.7;
-}
-
-.access__map iframe {
-  width: 100%;
-  height: 400px;
-  border: 0;
   display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--color-green-mid);
+  margin: 0 auto;
+}
+.vision-body::before { margin-bottom: 40px; }
+.vision-body::after  { margin-top: 40px; }
+
+.vision-body p {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1rem;
+  line-height: 2.1;
+  color: var(--color-text);
+  margin-bottom: 1.25em;
+}
+.vision-body p:last-child { margin-bottom: 0; }
+
+/* ===== #cta：フッターCTA ===== */
+.about-cta {
+  background: var(--color-green-deep);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.about-cta__text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.125rem;
+  color: var(--color-white);
+  letter-spacing: 0.08em;
+  margin-bottom: 40px;
+}
+
+.about-cta__buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* アウトラインボタン */
+.about-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.12em;
+  border: 1px solid var(--color-white);
+  color: var(--color-white);
+  transition: background 0.25s, color 0.25s;
+}
+.about-btn:hover {
+  background: var(--color-white);
+  color: var(--color-green-deep);
 }
 
 /* ===== レスポンシブ ===== */
 @media (max-width: 768px) {
-  .page-hero { height: 300px; }
-  .page-hero__title { font-size: 2.5rem; }
+  .about-section { padding: 72px 0; }
 
-  .farm-intro__grid,
-  .access__grid { grid-template-columns: 1fr; gap: 32px; }
+  /* ヒーロー */
+  .about-hero__title { font-size: 1.1875rem; line-height: 2; }
+  .sp-hide { display: none; }
 
-  .profile-table th { width: 100px; padding: 14px 12px; font-size: 0.875rem; }
-  .profile-table td { padding: 14px 12px; font-size: 0.875rem; }
+  /* story */
+  .story-body { padding-left: 16px; }
 
-  .timeline::before { left: 80px; }
-  .timeline__item::after { left: 76px; }
-  .timeline__item--current::after { left: 74px; }
-  .timeline__year { min-width: 80px; font-size: 0.8125rem; }
-  .timeline__item { gap: 28px; }
+  /* land */
+  .land-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  /* SP時は写真を上に */
+  .land-photo { order: -1; }
+
+  /* numbers */
+  .numbers-grid { flex-direction: column; gap: 8px; }
+  .numbers-divider { width: 48px; height: 1px; }
+  .numbers-card { padding: 20px 16px; }
+
+  /* message */
+  .message-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  /* cta */
+  .about-cta__buttons { flex-direction: column; align-items: center; }
+  .about-btn { width: 240px; text-align: center; }
 }
