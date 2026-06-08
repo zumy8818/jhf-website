@@ -1,0 +1,33 @@
+name: ロリポップ FTP デプロイ
+
+# mainブランチにpushされたら自動でロリポップにデプロイ
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: ロリポップにFTPデプロイ
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server:   ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # ローカルのリポジトリルートをロリポップの公開フォルダに転送
+          local-dir:  ./
+          server-dir: /aso-jh-farm.jp/
+          # GitHub Pages用ファイル・開発用ファイルは転送しない
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/CNAME
+            **/*.md
+            **/*.txt
+            **/wireframe/**
+            **/.github/**
