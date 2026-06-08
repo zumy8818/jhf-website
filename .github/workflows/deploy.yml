@@ -12,23 +12,7 @@ jobs:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      # SSHでサーバーのディレクトリ構造を確認（デバッグ用）
-      - name: サーバーのパス構造を確認
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port:     2222
-          script: |
-            echo "=== ホームディレクトリ ==="
-            pwd
-            echo "=== ホーム直下のフォルダ一覧 ==="
-            ls -la ~/
-            echo "=== aso-jh-farm.jp の中身 ==="
-            ls -la ~/aso-jh-farm.jp/ 2>/dev/null || echo "フォルダが見つかりません"
-
-      # about/ と css/ をデプロイ
+      # aboutフォルダとCSSをデプロイ
       - name: aboutフォルダとCSSをデプロイ
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -38,3 +22,17 @@ jobs:
           port:     2222
           source:   "about,css"
           target:   "aso-jh-farm.jp/"
+
+      # デプロイ後にサーバーの中身を確認
+      - name: デプロイ結果を確認
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port:     2222
+          script: |
+            echo "=== about/ の中身 ==="
+            ls -la ~/aso-jh-farm.jp/about/
+            echo "=== css/ の中身 ==="
+            ls -la ~/aso-jh-farm.jp/css/
