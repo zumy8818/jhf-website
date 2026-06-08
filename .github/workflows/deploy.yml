@@ -1,6 +1,5 @@
 name: ロリポップ SCP デプロイ
 
-# mainブランチにpushされたら自動でロリポップにデプロイ
 on:
   push:
     branches:
@@ -13,9 +12,23 @@ jobs:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      # about/ と css/ をフォルダ名ごとロリポップにSCPで転送
-      # source にスラッシュをつけない → フォルダ名が保持される
-      # 結果: aso-jh-farm.jp/about/index.html, aso-jh-farm.jp/css/style.css
+      # SSHでサーバーのディレクトリ構造を確認（デバッグ用）
+      - name: サーバーのパス構造を確認
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port:     2222
+          script: |
+            echo "=== ホームディレクトリ ==="
+            pwd
+            echo "=== ホーム直下のフォルダ一覧 ==="
+            ls -la ~/
+            echo "=== aso-jh-farm.jp の中身 ==="
+            ls -la ~/aso-jh-farm.jp/ 2>/dev/null || echo "フォルダが見つかりません"
+
+      # about/ と css/ をデプロイ
       - name: aboutフォルダとCSSをデプロイ
         uses: appleboy/scp-action@v0.1.7
         with:
