@@ -13,23 +13,15 @@ jobs:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      # about/ と css/ フォルダをロリポップにSCPで転送（パスワード認証・再帰コピー対応）
-      - name: aboutフォルダをデプロイ
+      # about/ と css/ をフォルダ名ごとロリポップにSCPで転送
+      # source にスラッシュをつけない → フォルダ名が保持される
+      # 結果: aso-jh-farm.jp/about/index.html, aso-jh-farm.jp/css/style.css
+      - name: aboutフォルダとCSSをデプロイ
         uses: appleboy/scp-action@v0.1.7
         with:
           host:     ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port:     2222
-          source:   "about/"
-          target:   "aso-jh-farm.jp/"
-
-      - name: 共通CSSをデプロイ
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port:     2222
-          source:   "css/"
+          source:   "about,css"
           target:   "aso-jh-farm.jp/"
