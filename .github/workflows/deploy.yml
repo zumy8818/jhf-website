@@ -1,4 +1,4 @@
-name: ロリポップ SFTP デプロイ
+name: ロリポップ SCP デプロイ
 
 # mainブランチにpushされたら自動でロリポップにデプロイ
 on:
@@ -13,24 +13,23 @@ jobs:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      - name: ロリポップにrsyncデプロイ（サブフォルダ含む再帰転送）
-        uses: burnett01/rsync-deployments@7.0.1
+      # about/ と css/ フォルダをロリポップにSCPで転送（パスワード認証・再帰コピー対応）
+      - name: aboutフォルダをデプロイ
+        uses: appleboy/scp-action@v0.1.7
         with:
-          # -a: アーカイブ（権限・タイムスタンプ保持）
-          # -v: 詳細ログ
-          # -z: 圧縮転送
-          # -r: サブフォルダも再帰的にコピー
-          switches: >-
-            -avzr
-            --exclude='.git'
-            --exclude='.github'
-            --exclude='CNAME'
-            --exclude='*.md'
-            --exclude='*.txt'
-            --exclude='wireframe'
-          path: ./
-          remote_path: aso-jh-farm.jp/
-          remote_host: ${{ secrets.SSH_HOST }}
-          remote_port: 2222
-          remote_user: ${{ secrets.SSH_USERNAME }}
-          remote_password: ${{ secrets.SSH_PASSWORD }}
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port:     2222
+          source:   "about/"
+          target:   "aso-jh-farm.jp/"
+
+      - name: 共通CSSをデプロイ
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host:     ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port:     2222
+          source:   "css/"
+          target:   "aso-jh-farm.jp/"
