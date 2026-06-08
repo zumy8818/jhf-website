@@ -13,20 +13,24 @@ jobs:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      - name: ロリポップにSFTPデプロイ
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: ロリポップにrsyncデプロイ（サブフォルダ含む再帰転送）
+        uses: burnett01/rsync-deployments@7.0.1
         with:
-          server:      ${{ secrets.SSH_HOST }}
-          username:    ${{ secrets.SSH_USERNAME }}
-          password:    ${{ secrets.SSH_PASSWORD }}
-          port:        2222
-          local_path:  ./
+          # -a: アーカイブ（権限・タイムスタンプ保持）
+          # -v: 詳細ログ
+          # -z: 圧縮転送
+          # -r: サブフォルダも再帰的にコピー
+          switches: >-
+            -avzr
+            --exclude='.git'
+            --exclude='.github'
+            --exclude='CNAME'
+            --exclude='*.md'
+            --exclude='*.txt'
+            --exclude='wireframe'
+          path: ./
           remote_path: aso-jh-farm.jp/
-          # デプロイ不要なファイルを除外
-          args: >
-            --exclude=.git
-            --exclude=.github
-            --exclude=CNAME
-            --exclude=*.md
-            --exclude=*.txt
-            --exclude=wireframe
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_port: 2222
+          remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_password: ${{ secrets.SSH_PASSWORD }}
