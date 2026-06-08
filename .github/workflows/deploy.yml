@@ -21,7 +21,7 @@ jobs:
           password:    ${{ secrets.SSH_PASSWORD }}
           port:        2222
           local_path:  ./
-          remote_path: /aso-jh-farm.jp/
+          remote_path: aso-jh-farm.jp/
           # デプロイ不要なファイルを除外
           args: >
             --exclude=.git
