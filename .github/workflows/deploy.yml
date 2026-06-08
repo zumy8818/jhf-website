@@ -1,4 +1,4 @@
-name: ロリポップ FTP デプロイ
+name: ロリポップ SFTP デプロイ
 
 # mainブランチにpushされたら自動でロリポップにデプロイ
 on:
@@ -13,21 +13,20 @@ jobs:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      - name: ロリポップにFTPデプロイ
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: ロリポップにSFTPデプロイ
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server:   ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          # ローカルのリポジトリルートをロリポップの公開フォルダに転送
-          local-dir:  ./
-          server-dir: /aso-jh-farm.jp/
-          # GitHub Pages用ファイル・開発用ファイルは転送しない
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/CNAME
-            **/*.md
-            **/*.txt
-            **/wireframe/**
-            **/.github/**
+          server:      ${{ secrets.SSH_HOST }}
+          username:    ${{ secrets.SSH_USERNAME }}
+          password:    ${{ secrets.SSH_PASSWORD }}
+          port:        2222
+          local_path:  ./
+          remote_path: /aso-jh-farm.jp/
+          # デプロイ不要なファイルを除外
+          args: >
+            --exclude=.git
+            --exclude=.github
+            --exclude=CNAME
+            --exclude=*.md
+            --exclude=*.txt
+            --exclude=wireframe
