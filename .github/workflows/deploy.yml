@@ -28,9 +28,10 @@ jobs:
           source:   "."
           target:   "/home/users/1/hippy.jp-scarecrowman8818/web/aso-jh-farm.jp"
 
-      # Slack通知
+      # Slack通知（SLACK_WEBHOOK_URL 未設定でもエラーにしない）
       - name: Slack通知
         if: always()
+        continue-on-error: true
         uses: slackapi/slack-github-action@v1.26.0
         with:
           payload: |
