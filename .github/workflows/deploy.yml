@@ -1,29 +1,41 @@
-name: ロリポップ SCP デプロイ
+name: デプロイ → ロリポップ（aso-jh-farm.jp）
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: リポジトリをチェックアウト
+      - name: チェックアウト
         uses: actions/checkout@v4
 
-      # web/フォルダの構造を調査（本当のWebルートを特定）
-      - name: webフォルダの構造を確認
-        uses: appleboy/ssh-action@v1.0.3
+      # デプロイ不要なファイルを除外
+      - name: 不要ファイルを除外
+        run: |
+          rm -rf wireframe README.md CNAME .ftp-deploy-sync-state.json
+
+      # ロリポップの ~/web/aso-jh-farm.jp/ へSCPコピー
+      - name: SCPデプロイ
+        uses: appleboy/scp-action@v0.1.7
         with:
           host:     ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port:     2222
-          script: |
-            echo "=== ~/web/ の中身 ==="
-            ls -la ~/web/ 2>/dev/null || echo "webフォルダなし"
-            echo "=== ~/web/aso-jh-farm.jp/ の中身 ==="
-            ls -la ~/web/aso-jh-farm.jp/ 2>/dev/null || echo "フォルダなし"
-            echo "=== シンボリックリンク確認 ==="
-            ls -la ~/ | grep "\->"
+          source:   "."
+          target:   "/home/users/1/hippy.jp-scarecrowman8818/web/aso-jh-farm.jp"
+
+      # Slack通知
+      - name: Slack通知
+        if: always()
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": "${{ job.status == 'success' && '✅' || '❌' }} *JHFサイト デプロイ ${{ job.status }}*\nコミット: ${{ github.event.head_commit.message }}\nhttps://github.com/${{ github.repository }}/actions"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
