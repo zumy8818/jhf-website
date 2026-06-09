@@ -1,70 +1,136 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>㈱阿蘇J・Hファーム｜熊本県阿蘇郡産山村 和牛繁殖・一貫飼育</title>
-  <meta name="description" content="熊本県阿蘇郡産山村で和牛の繁殖・一貫飼育を行う㈱阿蘇J・Hファームの公式サイト。">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    .top-hero {
-      height: 100vh;
-      background: #1a1a1a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #fff;
-    }
-    .top-hero h1 { font-size: 2rem; letter-spacing: 0.3em; margin-bottom: 16px; }
-    .top-hero p { letter-spacing: 0.1em; color: #aaa; margin-bottom: 32px; }
-    .top-hero a { display: inline-block; padding: 14px 40px; border: 1px solid #fff; color: #fff; letter-spacing: 0.1em; font-size: 0.875rem; transition: background 0.25s; }
-    .top-hero a:hover { background: #fff; color: #1a1a1a; }
-  </style>
+    <meta charset="UTF-8">
+    <title>㈱阿蘇J・Hファーム - デモ</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ヒーローエリアの親要素 */
+/* 1. 外枠：背景を黒（または濃いグレー）にして、画像がない部分を引き締める */
+.hero {
+    position: relative;
+    height: 80vh;
+    overflow: hidden;
+    background-color: #1a1a1a; /* ここを産山ブルー #004d40 にしても格好いいです */
+    display: flex;
+    align-items: center;      /* 上下中央 */
+    justify-content: center;   /* 左右中央 */
+}
+
+/* 2. スライダー本体：親要素（hero）の中央に固定 */
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 3. 画像：高さを100%に固定し、横幅は自動調整して中央配置 */
+.slider img {
+    position: absolute;
+    max-width: 100%;          /* 横がはみ出さないように制限 */
+    max-height: 100%;         /* 高さを枠内に収める */
+    width: auto;              /* 比率を維持 */
+    height: auto;             /* 比率を維持 */
+    
+    /* 中央配置のダメ押し */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    object-fit: contain;
+    opacity: 0;
+    animation: slideShow 28s infinite;
+}
+
+/* アニメーションの transform を修正（中央配置を維持するため） */
+@keyframes slideShow {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(1.0); }
+    5% { opacity: 1; }
+    15% { opacity: 1; }
+    20% { opacity: 0; transform: translate(-50%, -50%) scale(1.05); }
+    100% { opacity: 0; }
+}
+
+/* テキストを画像の上に重ねる */
+.hero-text {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* 文字を見やすく */
+    text-align: center;
+    width: 100%;
+}
+        body { margin: 0; font-family: "Hiragino Mincho ProN", serif; color: #333; }
+        header { display: flex; justify-content: space-between; padding: 20px 50px; background: #fff; }
+        .hero { height: 80vh; background: #eee; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .hero h1 { font-size: 3rem; letter-spacing: 0.1em; }
+        section { padding: 80px 50px; text-align: center; }
+        .message-grid { display: flex; justify-content: space-around; margin-top: 40px; }
+        .blog-grid { display: flex; justify-content: center; gap: 40px; }
+        .blog-card { border: 1px solid #ccc; padding: 20px; width: 300px; }
+    </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="logo"><a href="index.html"><span class="logo-text">㈱阿蘇J・Hファーム</span></a></div>
-      <nav class="global-nav">
-        <ul>
-          <li><a href="index.html" class="active">TOP</a></li>
-          <li><a href="about/index.html">ABOUT</a></li>
-          <li><a href="message/index.html">MESSAGE</a></li>
-          <li><a href="system/index.html">SYSTEM</a></li>
-          <li><a href="blog/index.html">BLOG</a></li>
-          <li><a href="press/index.html">PRESS RELEASE</a></li>
-        </ul>
-      </nav>
-      <button class="hamburger" aria-label="メニュー" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <header>
+        <div class="logo">㈱阿蘇J・Hファーム</div>
+        <nav>ABOUT / MESSAGE / SYSTEM / BLOG</nav>
+        
+    </header>
+
+    <div class="hero">
+    <div class="slider">
+        <img src="assets/photo/IMG_1442.JPG" alt="牛1">
+        <img src="assets/photo/IMG_1443.JPG" alt="牛2">
+        <img src="assets/photo/IMG_1447.JPG" alt="牛3">
+        <img src="assets/photo/IMG_1448.JPG" alt="牛4">
+        <img src="assets/photo/IMG_1451.JPG" alt="牛5">
+        <img src="assets/photo/IMG_1452.JPG" alt="牛6">
+        <img src="assets/photo/IMG_1455.JPG" alt="牛7">
     </div>
-  </header>
-  <main>
-    <section class="top-hero">
-      <div>
-        <h1>㈱阿蘇J・Hファーム</h1>
-        <p>阿蘇の大自然で育てる和牛</p>
-        <a href="about/index.html">ABOUT →</a>
-      </div>
+    <div class="hero-text">
+        <h1>産山の風土と、親子三代の絆。<br><span>嘘のない牛づくりを、この大地から。</span></h1>
+    </div>
+</div>
+</div>
+    
+    </div>
+
+    
+<section id="message">
+        <h2>私たちが大切にしていること</h2>
+        <div class="message-grid">
+            <div class="msg-item"><h3>安全</h3><p>産山の清らかな水と一貫飼育の徹底。誕生から出荷まで、一頭一頭に命の責任を持ちます。</p></div>
+            <div class="msg-item"><h3>伝統</h3><p>親子三代。長年培った確かな目が、阿蘇が誇る和牛本来の旨みを引き出します。</p></div>
+            <div class="msg-item"><h3>技術</h3><p>ITは、牛と向き合う時間を生むために。効率化の先にあるのは、変わらぬ愛情です。</p></div>
+        </div>
     </section>
-  </main>
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-logo">㈱阿蘇J・Hファーム</div>
-      <p class="footer-address">熊本県阿蘇郡産山村大利665-1</p>
-      <p class="footer-copy"><small>&copy; 2024 Aso J&middot;H Farm Co., Ltd. All Rights Reserved.</small></p>
-    </div>
-  </footer>
-  <script>
-    const hamburger = document.querySelector('.hamburger');
-    const nav = document.querySelector('.global-nav');
-    hamburger.addEventListener('click', () => {
-      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', String(!expanded));
-      nav.classList.toggle('is-open');
-    });
-  </script>
+
+    <section id="blog" style="background: #f9f9f9;">
+        <h2>産山の大地から届ける日記</h2>
+        <div class="blog-grid">
+            <div class="blog-card"><h3>三代目の修行日記</h3><p>若き跡取りの挑戦。27歳の等身大の言葉。</p></div>
+            <div class="blog-card"><h3>社長の日々是之</h3><p>代表が語る、牛と産山と日々の想い。</p></div>
+        </div>
+    </section>
+    <script> window.onload = function() 
+    { const displayTime = 4; 
+        const images = document.querySelectorAll('.slider img'); 
+        const totalCount = images.length; 
+        if (totalCount > 0) { const totalDuration = displayTime * totalCount; 
+            images.forEach((img, index) => 
+        { img.style.animationName = 'slideShow'; 
+        img.style.animationIterationCount = 'infinite'; 
+        img.style.animationTimingFunction = 'linear'; 
+        img.style.animationDuration = totalDuration + 's'; 
+        img.style.animationDelay = (displayTime * index) + 's'; 
+    }); 
+} }; 
+
+    </script>
 </body>
 </html>
