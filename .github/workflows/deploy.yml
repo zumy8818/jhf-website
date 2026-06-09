@@ -12,19 +12,8 @@ jobs:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      # aboutフォルダとCSSをデプロイ
-      - name: aboutフォルダとCSSをデプロイ
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host:     ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          port:     2222
-          source:   "about,css"
-          target:   "aso-jh-farm.jp/"
-
-      # デプロイ後にサーバーの中身を確認
-      - name: デプロイ結果を確認
+      # web/フォルダの構造を調査（本当のWebルートを特定）
+      - name: webフォルダの構造を確認
         uses: appleboy/ssh-action@v1.0.3
         with:
           host:     ${{ secrets.SSH_HOST }}
@@ -32,7 +21,9 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port:     2222
           script: |
-            echo "=== about/ の中身 ==="
-            ls -la ~/aso-jh-farm.jp/about/
-            echo "=== css/ の中身 ==="
-            ls -la ~/aso-jh-farm.jp/css/
+            echo "=== ~/web/ の中身 ==="
+            ls -la ~/web/ 2>/dev/null || echo "webフォルダなし"
+            echo "=== ~/web/aso-jh-farm.jp/ の中身 ==="
+            ls -la ~/web/aso-jh-farm.jp/ 2>/dev/null || echo "フォルダなし"
+            echo "=== シンボリックリンク確認 ==="
+            ls -la ~/ | grep "\->"
