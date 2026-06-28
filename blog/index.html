@@ -4,89 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>牧場日記 | 株式会社阿蘇J・Hファーム</title>
-    <meta name="description" content="㈱阿蘇J・Hファームの牧場日記。産山高原の牧場から、日々の牛との時間・季節の移ろい・農場スタッフの想いをお届けします。">
+    <meta name="description" content="㈱阿蘇J・Hファームの牧場日記。産山高原の牧場から、日々の風景・仕事・想いをお届けします。">
     <meta property="og:title" content="牧場日記 | 株式会社阿蘇J・Hファーム">
-    <meta property="og:description" content="産山高原の牧場から、日々の風景と牛づくりの様子をお届けします。">
-    <meta property="og:type" content="article">
-    <link rel="stylesheet" href="style.css">
+    <meta property="og:description" content="産山高原の牧場から、日々の風景と牛とともに過ごす時間をお届けします。">
+    <meta property="og:type" content="blog">
+    <link rel="stylesheet" href="/style.css">
     <style>
-        /* 共通レイアウト（index.htmlと揃える） */
-        body { margin: 0; font-family: "Hiragino Mincho ProN", serif; color: #333; background: #fff; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: #fff; border-bottom: 1px solid #eee; }
-        header .logo { font-weight: bold; font-size: 1.1rem; }
-        header nav a { color: #333; text-decoration: none; margin: 0 6px; }
-        header nav a:hover { color: #004d40; text-decoration: underline; }
+        body { margin: 0; font-family: "Hiragino Mincho ProN", serif; color: #333; background: #faf7f0; }
 
-        /* 牧場日記ページ専用 */
-        .diary-hero {
-            background: #f5f1ea;
+        /* ヘッダー */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px; background: #fff; border-bottom: 1px solid #eee;
+            position: sticky; top: 0; z-index: 100;
+        }
+        header .logo { font-weight: bold; font-size: 1.1rem; }
+        header nav a { color: #333; text-decoration: none; margin: 0 6px; transition: color 0.2s; }
+        header nav a:hover { color: #004d40; text-decoration: underline; }
+        header nav .current { color: #004d40; font-weight: bold; margin: 0 6px; }
+
+        /* ページヒーロー */
+        .blog-hero {
+            background: linear-gradient(135deg, #f5f1ea 0%, #ebe3d0 100%);
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 70px 20px 50px;
             border-bottom: 1px solid #e7e0d3;
         }
-        .diary-hero h1 {
-            font-size: 2.2rem;
-            letter-spacing: 0.1em;
+        .blog-hero .eyebrow {
+            color: #004d40; font-size: 0.85rem; letter-spacing: 0.4em;
             margin: 0 0 12px;
-            color: #2c2c2c;
         }
-        .diary-hero p {
-            color: #666;
+        .blog-hero h1 {
+            font-size: 2.2rem; letter-spacing: 0.15em;
+            margin: 0 0 16px; color: #2c2c2c;
+        }
+        .blog-hero p { color: #666; font-size: 1rem; margin: 0; }
+
+        /* レイアウト */
+        .blog-layout {
+            max-width: 1100px; margin: 0 auto;
+            padding: 60px 24px;
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 50px;
+        }
+
+        /* 記事カード */
+        .post-list { display: flex; flex-direction: column; gap: 28px; }
+        .post-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none; color: inherit;
+            display: block;
+        }
+        .post-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+        }
+        .post-card .post-thumb {
+            height: 220px;
+            background: linear-gradient(135deg, #d4c9a8 0%, #a8c4b8 100%);
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .post-card .post-thumb .emoji {
+            font-size: 4rem;
+            opacity: 0.8;
+        }
+        .post-card .post-body { padding: 28px 32px 32px; }
+        .post-card .post-meta {
+            display: flex; gap: 16px; align-items: center;
+            color: #888; font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        .post-card .post-meta .cat {
+            background: #f5f1ea; color: #6b5b3a;
+            padding: 4px 12px; border-radius: 12px;
+            font-size: 0.78rem;
+        }
+        .post-card h2 {
+            margin: 0 0 12px; font-size: 1.35rem;
+            color: #2c2c2c; line-height: 1.5;
+        }
+        .post-card .post-excerpt {
+            color: #555; line-height: 1.85;
+            margin: 0; font-size: 0.95rem;
+        }
+        .post-card .read-more {
+            display: inline-block; margin-top: 20px;
+            color: #004d40; font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* サイドバー */
+        .blog-sidebar { display: flex; flex-direction: column; gap: 30px; }
+        .widget {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 24px;
+        }
+        .widget h3 {
+            margin: 0 0 16px;
             font-size: 1rem;
-            margin: 0;
+            color: #2c2c2c;
+            letter-spacing: 0.1em;
+            border-bottom: 2px solid #004d40;
+            padding-bottom: 10px;
+            display: inline-block;
         }
-
-        .diary-section {
-            padding: 60px 20px;
-            max-width: 880px;
-            margin: 0 auto;
-            text-align: center;
+        .widget .about-text {
+            color: #555; font-size: 0.88rem;
+            line-height: 1.9; margin: 0;
         }
-        .diary-section .lead {
-            margin-bottom: 40px;
-            color: #555;
-            line-height: 1.8;
+        .widget ul { list-style: none; padding: 0; margin: 0; }
+        .widget ul li { padding: 8px 0; border-bottom: 1px dashed #eee; }
+        .widget ul li:last-child { border-bottom: none; }
+        .widget ul li a {
+            color: #555; text-decoration: none;
+            font-size: 0.9rem;
+            display: flex; justify-content: space-between;
+            transition: color 0.2s;
         }
-
-        /* Facebook埋め込みラッパー（左右余白＋中央寄せ） */
-        .fb-wrapper {
-            display: flex;
-            justify-content: center;
-            padding: 0 16px;
-            margin: 0 auto;
+        .widget ul li a:hover { color: #004d40; }
+        .widget ul li .count { color: #aaa; font-size: 0.8rem; }
+        .widget .fb-cta {
+            display: block; text-align: center;
+            background: #1877f2; color: #fff;
+            padding: 12px; border-radius: 4px;
+            text-decoration: none; font-size: 0.9rem;
+            transition: background 0.2s;
         }
-        .fb-wrapper .fb-page {
-            max-width: 100%;
-        }
+        .widget .fb-cta:hover { background: #166fe5; }
 
         /* フッター */
         footer {
-            background: #2c2c2c;
-            color: #ddd;
-            text-align: center;
-            padding: 30px 20px;
+            background: #2c2c2c; color: #ddd;
+            text-align: center; padding: 36px 20px;
             font-size: 0.85rem;
-            margin-top: 60px;
         }
         footer a { color: #ddd; text-decoration: none; margin: 0 8px; }
+        footer a:hover { color: #fff; }
 
-        /* スマホ対応 */
+        @media screen and (max-width: 900px) {
+            .blog-layout { grid-template-columns: 1fr; gap: 30px; padding: 40px 16px; }
+        }
         @media screen and (max-width: 768px) {
-            header { flex-direction: column; padding: 15px; text-align: center; }
+            header { flex-direction: column; padding: 15px; text-align: center; position: static; }
             header nav { margin-top: 10px; font-size: 0.85rem; }
-            .diary-hero { padding: 40px 16px 30px; }
-            .diary-hero h1 { font-size: 1.6rem; }
-            .diary-section { padding: 40px 12px; }
-            .fb-wrapper { padding: 0 4px; }
+            .blog-hero { padding: 40px 16px 30px; }
+            .blog-hero h1 { font-size: 1.6rem; }
+            .post-card .post-thumb { height: 160px; }
+            .post-card .post-thumb .emoji { font-size: 3rem; }
+            .post-card .post-body { padding: 20px 22px; }
+            .post-card h2 { font-size: 1.15rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Facebook SDK のルート要素 -->
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-        src="https://connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v19.0"></script>
-
     <header>
         <div class="logo">㈱阿蘇J・Hファーム</div>
         <nav>
@@ -94,49 +172,112 @@
             <a href="/about/">ABOUT</a> /
             <a href="/message/">MESSAGE</a> /
             <a href="/system/">SYSTEM</a> /
-            <span style="color:#004d40; font-weight:bold;">牧場日記</span>
+            <span class="current">牧場日記</span>
         </nav>
     </header>
 
-    <section class="diary-hero">
+    <section class="blog-hero">
+        <p class="eyebrow">BLOG</p>
         <h1>牧場日記</h1>
-        <p>産山高原から届ける、牛とともに過ごす毎日。</p>
+        <p>産山高原の牧場から、日々の風景と想いをお届けします。</p>
     </section>
 
-    <section class="diary-section">
-        <p class="lead">
-            日々の牧場の風景、季節の移ろい、若き三代目の挑戦――<br>
-            農場の今を、Facebookページから随時お届けしています。
-        </p>
+    <div class="blog-layout">
 
-        <!--
-            ▼▼▼ Facebookページ埋め込み ▼▼▼
-            連携先: 株式会社阿蘇J・Hファーム Facebookページ
-            URL変更時は data-href / cite / <a href> の3か所をすべて書き換えること
-        -->
-        <div class="fb-wrapper">
-            <div class="fb-page"
-                data-href="https://www.facebook.com/profile.php?id=61591557386529"
-                data-tabs="timeline"
-                data-width="800"
-                data-height="800"
-                data-small-header="false"
-                data-adapt-container-width="true"
-                data-hide-cover="false"
-                data-show-facepile="true">
-                <blockquote cite="https://www.facebook.com/profile.php?id=61591557386529"
-                    class="fb-xfbml-parse-ignore">
-                    <a href="https://www.facebook.com/profile.php?id=61591557386529" target="_blank" rel="noopener noreferrer">牧場日記</a>
-                </blockquote>
+        <!-- 記事一覧 -->
+        <main class="post-list">
+
+            <!--
+              ▼ 新しい記事を追加する手順
+              1. /blog/posts/ に新しいHTMLファイルを作成（例: 2026-07-01-title.html）
+              2. このリストの一番上に <a class="post-card"> ブロックを追加してリンクする
+              3. git push でデプロイ完了
+            -->
+
+            <a href="/blog/posts/2026-06-28-hajimemashite.html" class="post-card">
+                <div class="post-thumb"><span class="emoji">🐄</span></div>
+                <div class="post-body">
+                    <div class="post-meta">
+                        <span class="date">2026.06.28</span>
+                        <span class="cat">お知らせ</span>
+                    </div>
+                    <h2>はじめまして、牧場日記をはじめました。</h2>
+                    <p class="post-excerpt">
+                        産山高原の小さな牧場から、日々の出来事や牛とともに過ごす時間を、少しずつお伝えしていきたいと思います。
+                        親子三代、産山の風土とともに歩んできたこの牧場の今を…
+                    </p>
+                    <span class="read-more">続きを読む →</span>
+                </div>
+            </a>
+
+            <a href="/blog/posts/2026-06-27-asa-no-makiba.html" class="post-card">
+                <div class="post-thumb"><span class="emoji">🌅</span></div>
+                <div class="post-body">
+                    <div class="post-meta">
+                        <span class="date">2026.06.27</span>
+                        <span class="cat">風景</span>
+                    </div>
+                    <h2>産山の朝、牛舎にて。</h2>
+                    <p class="post-excerpt">
+                        標高1,000メートルの産山高原の朝は、霧から始まります。
+                        薄明かりの中で牛たちと向き合う時間。それが私たちの一日のはじまりです…
+                    </p>
+                    <span class="read-more">続きを読む →</span>
+                </div>
+            </a>
+
+        </main>
+
+        <!-- サイドバー -->
+        <aside class="blog-sidebar">
+
+            <div class="widget">
+                <h3>このブログについて</h3>
+                <p class="about-text">
+                    熊本県阿蘇郡産山村にある、親子三代の牧場「株式会社阿蘇J・Hファーム」の牧場日記。
+                    日々の風景・仕事・想いをお届けします。
+                </p>
             </div>
-        </div>
-        <!-- ▲▲▲ Facebookページ埋め込み ここまで ▲▲▲ -->
-    </section>
+
+            <div class="widget">
+                <h3>カテゴリー</h3>
+                <ul>
+                    <li><a href="#">お知らせ <span class="count">(1)</span></a></li>
+                    <li><a href="#">日常 <span class="count">(0)</span></a></li>
+                    <li><a href="#">仕事 <span class="count">(0)</span></a></li>
+                    <li><a href="#">風景 <span class="count">(1)</span></a></li>
+                </ul>
+            </div>
+
+            <div class="widget">
+                <h3>最近の投稿</h3>
+                <ul>
+                    <li><a href="/blog/posts/2026-06-28-hajimemashite.html">はじめまして、牧場日記をはじめました。</a></li>
+                    <li><a href="/blog/posts/2026-06-27-asa-no-makiba.html">産山の朝、牛舎にて。</a></li>
+                </ul>
+            </div>
+
+            <div class="widget">
+                <h3>Facebookでもお届け</h3>
+                <p class="about-text" style="margin-bottom:14px;">
+                    Facebookページでも日々の様子を発信中。フォローいただけると嬉しいです。
+                </p>
+                <a class="fb-cta" href="https://www.facebook.com/profile.php?id=61591557386529" target="_blank" rel="noopener noreferrer">
+                    Facebookページを見る →
+                </a>
+            </div>
+
+        </aside>
+
+    </div>
 
     <footer>
         <p>© 株式会社阿蘇J・Hファーム</p>
         <p>
             <a href="/">HOME</a> /
+            <a href="/about/">ABOUT</a> /
+            <a href="/message/">MESSAGE</a> /
+            <a href="/system/">SYSTEM</a> /
             <a href="/blog/">牧場日記</a>
         </p>
     </footer>
