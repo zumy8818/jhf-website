@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM | 株式会社阿蘇J・Hファーム</title>
+    <meta name="description" content="㈱阿蘇J・Hファームの飼育・販売・IT活用システム（関係者専用）">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body { margin: 0; font-family: "Hiragino Mincho ProN", serif; color: #333; background: #fff; }
+
+        /* ヘッダー */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px; background: #fff; border-bottom: 1px solid #eee;
+        }
+        header .logo { font-weight: bold; font-size: 1.1rem; }
+        header nav a { color: #333; text-decoration: none; margin: 0 6px; transition: color 0.2s; }
+        header nav a:hover { color: #004d40; text-decoration: underline; }
+        header nav .current { color: #004d40; font-weight: bold; margin: 0 6px; }
+
+        /* 認証ゲート */
+        .auth-gate {
+            min-height: calc(100vh - 80px);
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #f5f1ea 0%, #e0d6bf 100%);
+            padding: 40px 20px;
+        }
+        .auth-box {
+            background: #fff;
+            padding: 56px 48px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 420px; width: 100%;
+            text-align: center;
+        }
+        .auth-box .lock-icon {
+            font-size: 3rem; margin-bottom: 16px;
+        }
+        .auth-box h2 {
+            margin: 0 0 12px; color: #2c2c2c;
+            font-size: 1.5rem; letter-spacing: 0.15em;
+        }
+        .auth-box .auth-desc {
+            color: #888; font-size: 0.92rem; line-height: 1.7;
+            margin: 0 0 32px;
+        }
+        .auth-box input[type="password"] {
+            width: 100%; box-sizing: border-box;
+            padding: 14px 16px; font-size: 1rem;
+            border: 1px solid #ccc; border-radius: 4px;
+            margin-bottom: 16px;
+            font-family: inherit;
+        }
+        .auth-box input[type="password"]:focus {
+            outline: none; border-color: #004d40;
+            box-shadow: 0 0 0 3px rgba(0,77,64,0.15);
+        }
+        .auth-box button {
+            width: 100%; padding: 14px;
+            background: #004d40; color: #fff;
+            border: none; border-radius: 4px;
+            font-size: 1rem; letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+        .auth-box button:hover { background: #00695c; }
+        .pw-error {
+            color: #c62828; font-size: 0.9rem;
+            margin: 16px 0 0;
+        }
+
+        /* 保護コンテンツ */
+        .page-hero {
+            background: linear-gradient(135deg, #2c2c2c 0%, #004d40 100%);
+            color: #fff;
+            text-align: center;
+            padding: 80px 20px 60px;
+        }
+        .page-hero .eyebrow {
+            color: #b2dfdb; font-size: 0.85rem; letter-spacing: 0.4em;
+            margin: 0 0 12px;
+        }
+        .page-hero h1 {
+            font-size: 2.4rem; letter-spacing: 0.15em;
+            margin: 0 0 16px;
+        }
+        .page-hero p { color: #cfd8dc; font-size: 1rem; margin: 0; }
+
+        .system-section {
+            max-width: 1000px; margin: 0 auto;
+            padding: 80px 24px;
+        }
+        .system-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        .system-card {
+            background: #fff;
+            border: 1px solid #e7e0d3;
+            border-radius: 8px;
+            padding: 32px 28px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .system-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,77,64,0.12);
+        }
+        .system-card .num {
+            color: #004d40; font-size: 1.6rem; font-weight: bold;
+            letter-spacing: 0.1em; margin: 0 0 12px;
+        }
+        .system-card h3 {
+            margin: 0 0 16px; font-size: 1.2rem;
+            color: #2c2c2c; line-height: 1.5;
+        }
+        .system-card p {
+            color: #666; font-size: 0.92rem; line-height: 1.8;
+            margin: 0;
+        }
+
+        .system-detail {
+            background: #f5f1ea;
+            padding: 50px 40px;
+            border-radius: 8px;
+            margin-bottom: 50px;
+        }
+        .system-detail h2 {
+            font-size: 1.4rem; color: #2c2c2c;
+            margin: 0 0 24px;
+            border-bottom: 2px solid #004d40;
+            padding-bottom: 10px; display: inline-block;
+        }
+        .system-detail table {
+            width: 100%; border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .system-detail th, .system-detail td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.95rem;
+        }
+        .system-detail th {
+            background: #eaddc6; width: 30%;
+            font-weight: normal; color: #6b5b3a;
+        }
+        .system-detail td { color: #333; }
+
+        .logout-area {
+            text-align: center; margin-top: 60px;
+        }
+        .logout-btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background: #fff; color: #666;
+            border: 1px solid #ccc;
+            border-radius: 4px; cursor: pointer;
+            font-size: 0.9rem; font-family: inherit;
+        }
+        .logout-btn:hover { background: #f5f5f5; }
+
+        /* フッター */
+        footer {
+            background: #2c2c2c; color: #ddd;
+            text-align: center; padding: 36px 20px;
+            font-size: 0.85rem;
+        }
+        footer a { color: #ddd; text-decoration: none; margin: 0 8px; }
+        footer a:hover { color: #fff; }
+
+        @media screen and (max-width: 768px) {
+            header { flex-direction: column; padding: 15px; text-align: center; }
+            header nav { margin-top: 10px; font-size: 0.85rem; }
+            .auth-box { padding: 40px 28px; }
+            .page-hero { padding: 50px 16px 40px; }
+            .page-hero h1 { font-size: 1.7rem; }
+            .system-section { padding: 50px 16px; }
+            .system-grid { grid-template-columns: 1fr; gap: 16px; }
+            .system-detail { padding: 30px 20px; }
+            .system-detail th, .system-detail td { padding: 10px 8px; font-size: 0.88rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">㈱阿蘇J・Hファーム</div>
+        <nav>
+            <a href="/">HOME</a> /
+            <a href="/about/">ABOUT</a> /
+            <a href="/message/">MESSAGE</a> /
+            <span class="current">SYSTEM</span> /
+            <a href="/blog/">牧場日記</a>
+        </nav>
+    </header>
+
+    <!-- ▼ 認証ゲート（クライアント側PW、本格セキュリティが必要になったら.htaccess Basic認証へ移行） -->
+    <div id="auth-gate" class="auth-gate">
+        <div class="auth-box">
+            <div class="lock-icon">🔒</div>
+            <h2>SYSTEM</h2>
+            <p class="auth-desc">
+                このページは関係者専用です。<br>
+                パスワードを入力してください。
+            </p>
+            <input type="password" id="pw" placeholder="パスワード" autocomplete="current-password">
+            <button type="button" id="login-btn">ログイン</button>
+            <p id="pw-error" class="pw-error" style="display:none;">パスワードが違います</p>
+        </div>
+    </div>
+
+    <!-- ▼ 保護コンテンツ（PW認証後に表示） -->
+    <div id="protected-content" style="display:none;">
+
+        <section class="page-hero">
+            <p class="eyebrow">SYSTEM</p>
+            <h1>事業システム</h1>
+            <p>飼育・販売・IT活用までの一貫した仕組み（関係者専用）</p>
+        </section>
+
+        <section class="system-section">
+
+            <div class="system-grid">
+                <div class="system-card">
+                    <p class="num">01</p>
+                    <h3>一貫飼育システム</h3>
+                    <p>繁殖・育成・肥育を自社で完結。生産履歴は一頭ずつ管理し、トレーサビリティを確保。</p>
+                </div>
+                <div class="system-card">
+                    <p class="num">02</p>
+                    <h3>直販・流通システム</h3>
+                    <p>市場出荷に加え、直販ECと飲食店への卸を組み合わせた多角的な販売チャネル。</p>
+                </div>
+                <div class="system-card">
+                    <p class="num">03</p>
+                    <h3>牧場DXシステム</h3>
+                    <p>多言語コミュニケーション・勤怠管理・作業記録のデジタル化（AgroLink構想として段階的に導入）。</p>
+                </div>
+            </div>
+
+            <div class="system-detail">
+                <h2>一貫飼育の流れ</h2>
+                <table>
+                    <tr><th>繁殖</th><td>母牛の管理・人工授精・分娩管理を自社で実施</td></tr>
+                    <tr><th>育成</th><td>子牛の哺育・離乳・育成期間中の健康管理を一頭ずつ記録</td></tr>
+                    <tr><th>肥育</th><td>産山の牧草と良質な配合飼料で約20か月間じっくり肥育</td></tr>
+                    <tr><th>出荷</th><td>と畜場との連携、肉質格付け後に各販路へ出荷</td></tr>
+                </table>
+            </div>
+
+            <div class="system-detail">
+                <h2>販売チャネル</h2>
+                <table>
+                    <tr><th>市場出荷</th><td>熊本県畜産公社・熊本中央家畜市場へ定期出荷</td></tr>
+                    <tr><th>直販EC（予定）</th><td>WebサイトとSNSを通じた個人向け直販</td></tr>
+                    <tr><th>業務用卸</th><td>地元飲食店・ホテル・焼肉店向けの定期卸</td></tr>
+                    <tr><th>ふるさと納税</th><td>産山村ふるさと納税返礼品として展開</td></tr>
+                </table>
+            </div>
+
+            <div class="system-detail">
+                <h2>牧場DX（AgroLink構想・段階導入）</h2>
+                <table>
+                    <tr><th>Phase 1</th><td>多言語Slackコミュニケーション（実装中）</td></tr>
+                    <tr><th>Phase 2</th><td>勤怠・シフト管理＋管理者ダッシュボード</td></tr>
+                    <tr><th>Phase 3</th><td>作業記録・農薬記録のデジタル化</td></tr>
+                    <tr><th>パートナー</th><td>うぶやまデジタルサービス（UDS）</td></tr>
+                </table>
+            </div>
+
+            <div class="logout-area">
+                <button type="button" id="logout-btn" class="logout-btn">ログアウト</button>
+            </div>
+
+        </section>
+
+        <footer>
+            <p>© 株式会社阿蘇J・Hファーム</p>
+            <p>
+                <a href="/">HOME</a> /
+                <a href="/about/">ABOUT</a> /
+                <a href="/message/">MESSAGE</a> /
+                <a href="/system/">SYSTEM</a> /
+                <a href="/blog/">牧場日記</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        // ⚠️ クライアント側のみの簡易ゲート（本格セキュリティではない）
+        // ※ 本格的な保護が必要な場合は Lolipop の .htaccess + Basic認証 へ移行
+        const PASSWORD = '0123';
+        const STORAGE_KEY = 'jhf-system-auth';
+
+        function showContent() {
+            document.getElementById('auth-gate').style.display = 'none';
+            document.getElementById('protected-content').style.display = 'block';
+        }
+
+        function checkPw() {
+            const input = document.getElementById('pw');
+            const errorEl = document.getElementById('pw-error');
+            if (input.value === PASSWORD) {
+                sessionStorage.setItem(STORAGE_KEY, 'true');
+                errorEl.style.display = 'none';
+                showContent();
+            } else {
+                errorEl.style.display = 'block';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem(STORAGE_KEY);
+            location.reload();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // セッション中は再認証不要
+            if (sessionStorage.getItem(STORAGE_KEY) === 'true') {
+                showContent();
+                return;
+            }
+            // 認証ゲートのイベント登録
+            document.getElementById('login-btn').addEventListener('click', checkPw);
+            document.getElementById('pw').addEventListener('keypress', e => {
+                if (e.key === 'Enter') checkPw();
+            });
+            document.getElementById('pw').focus();
+        });
+
+        // ログアウトボタン（DOMContentLoaded後のbody内でアタッチ）
+        document.addEventListener('click', e => {
+            if (e.target && e.target.id === 'logout-btn') logout();
+        });
+    </script>
+</body>
+</html>
