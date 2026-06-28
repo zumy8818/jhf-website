@@ -67,18 +67,69 @@
 }
         body { margin: 0; font-family: "Hiragino Mincho ProN", serif; color: #333; }
         header { display: flex; justify-content: space-between; padding: 20px 50px; background: #fff; }
+        header nav a { color: #333; text-decoration: none; margin: 0 4px; transition: color 0.2s; }
+        header nav a:hover { color: #004d40; text-decoration: underline; }
         .hero { height: 80vh; background: #eee; display: flex; align-items: center; justify-content: center; text-align: center; }
         .hero h1 { font-size: 3rem; letter-spacing: 0.1em; }
         section { padding: 80px 50px; text-align: center; }
         .message-grid { display: flex; justify-content: space-around; margin-top: 40px; }
-        .blog-grid { display: flex; justify-content: center; gap: 40px; }
-        .blog-card { border: 1px solid #ccc; padding: 20px; width: 300px; }
+
+        /* 牧場日記セクション */
+        #blog {
+            background: #f5f1ea;
+            padding: 90px 30px;
+        }
+        #blog h2 {
+            font-size: 2.1rem;
+            letter-spacing: 0.18em;
+            margin: 0 0 20px;
+            color: #2c2c2c;
+        }
+        #blog .blog-lead {
+            color: #5c4f33;
+            max-width: 680px;
+            margin: 0 auto 12px;
+            line-height: 1.9;
+            font-size: 1.08rem;
+        }
+        #blog .blog-sub {
+            color: #888;
+            max-width: 680px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+            font-size: 0.92rem;
+        }
+        .blog-cta {
+            display: inline-block;
+            padding: 18px 56px;
+            background: #004d40;
+            color: #fff !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 1.05rem;
+            letter-spacing: 0.18em;
+            box-shadow: 0 6px 18px rgba(0,77,64,0.25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .blog-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0,77,64,0.38);
+        }
+
+        @media screen and (max-width: 768px) {
+            header { flex-direction: column; padding: 15px; text-align: center; }
+            header nav { margin-top: 10px; font-size: 0.9rem; }
+            section { padding: 50px 16px; }
+            #blog { padding: 60px 16px; }
+            #blog h2 { font-size: 1.6rem; }
+            .blog-cta { padding: 16px 40px; font-size: 1rem; letter-spacing: 0.12em; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">㈱阿蘇J・Hファーム</div>
-        <nav><a href="about/">ABOUT</a> / MESSAGE / SYSTEM / <a href="/blog/">農場日誌</a></nav>
+        <nav><a href="about/">ABOUT</a> / MESSAGE / SYSTEM / <a href="/blog/">牧場日記</a></nav>
         
     </header>
 
@@ -110,16 +161,16 @@
         </div>
     </section>
 
-    <section id="blog" style="background: #f9f9f9;">
-        <h2>産山の大地から届ける日記</h2>
-        <div class="blog-grid">
-            <div class="blog-card"><h3>三代目の修行日記</h3><p>若き跡取りの挑戦。27歳の等身大の言葉。</p></div>
-            <div class="blog-card"><h3>社長の日々是之</h3><p>代表が語る、牛と産山と日々の想い。</p></div>
-        </div>
-        <p style="margin-top:40px;">
-            <a href="/blog/" style="display:inline-block; padding:14px 36px; background:#004d40; color:#fff; text-decoration:none; border-radius:4px; font-size:1.05rem; letter-spacing:0.08em;">
-                → 農場日誌を見る
-            </a>
+    <section id="blog">
+        <h2>牧場日記</h2>
+        <p class="blog-lead">
+            産山高原の牧場から、日々の風景と牛とともに過ごす時間をお届けします。
+        </p>
+        <p class="blog-sub">
+            三代目の修行・社長の日々の想い・スタッフの記録を、Facebookで随時更新中。
+        </p>
+        <p style="margin:0;">
+            <a href="/blog/" class="blog-cta">→ 牧場日記を見る</a>
         </p>
     </section>
     <script> window.onload = function() 
