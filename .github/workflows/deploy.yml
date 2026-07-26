@@ -48,7 +48,7 @@ jobs:
       # ── 本番反映確認（.git・.github・.envが残っていないこと）──
       - name: 本番反映確認（.git等の露出がないこと）
         run: |
-          LISTING=$(curl -s --user "${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}" \
+          LISTING=$(curl -s --insecure --user "${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}" \
             "sftp://${{ secrets.SSH_HOST }}:2222${{ env.TARGET_PATH }}/" -l)
           FOUND=""
           for p in ".git" ".github" ".env" ".env.local"; do
