@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  TARGET_PATH: "/home/users/1/hippy.jp-scarecrowman8818/web/aso-jh-farm.jp"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,12 +15,26 @@ jobs:
       - name: チェックアウト
         uses: actions/checkout@v4
 
-      # デプロイ不要なファイルを除外
-      - name: 不要ファイルを除外
+      # ── 配信用クリーンディレクトリを作成 ──────────────────
+      # 除外リスト方式（rm -rf 個別ファイル）は新しいドットファイルが
+      # 増えるたびに漏れるため廃止。公開してよいものだけをコピーする。
+      - name: 配信用ディレクトリを作成
         run: |
-          rm -rf wireframe README.md CNAME .ftp-deploy-sync-state.json
+          mkdir -p .deploy
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='.deploy/' \
+            --exclude='README.md' \
+            --exclude='CNAME' \
+            --exclude='wireframe/' \
+            --exclude='.ftp-deploy-sync-state.json' \
+            ./ .deploy/
 
-      # ロリポップの ~/web/aso-jh-farm.jp/ へSCPコピー
+      # ロリポップの ~/web/aso-jh-farm.jp/ へSCPコピー（.deploy配下のみ）
       - name: SCPデプロイ
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -25,8 +42,24 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port:     2222
-          source:   "."
-          target:   "/home/users/1/hippy.jp-scarecrowman8818/web/aso-jh-farm.jp"
+          source:   ".deploy/*"
+          target:   ${{ env.TARGET_PATH }}
+
+      # ── 本番反映確認（.git・.github・.envが残っていないこと）──
+      - name: 本番反映確認（.git等の露出がないこと）
+        run: |
+          LISTING=$(curl -s --user "${{ secrets.SSH_USERNAME }}:${{ secrets.SSH_PASSWORD }}" \
+            "sftp://${{ secrets.SSH_HOST }}:2222${{ env.TARGET_PATH }}/" -l)
+          FOUND=""
+          for p in ".git" ".github" ".env" ".env.local"; do
+            if echo "$LISTING" | grep -qx "$p"; then
+              FOUND="$FOUND $p"
+            fi
+          done
+          if [ -n "$FOUND" ]; then
+            echo "::error::本番に残っています:$FOUND"
+            exit 1
+          fi
 
       # Slack通知（SLACK_WEBHOOK_URL 未設定でもエラーにしない）
       - name: Slack通知
