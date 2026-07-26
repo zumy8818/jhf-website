@@ -44,6 +44,7 @@ jobs:
           port:     2222
           source:   ".deploy/*"
           target:   ${{ env.TARGET_PATH }}
+          strip_components: 1
 
       # ── 本番反映確認（.git・.github・.envが残っていないこと）──
       - name: 本番反映確認（.git等の露出がないこと）
