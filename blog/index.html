@@ -16,7 +16,6 @@
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 50px; background: #fff; border-bottom: 1px solid #eee;
-            position: sticky; top: 0; z-index: 100;
         }
         header .logo { font-weight: bold; font-size: 1.1rem; }
         header nav a { color: #333; text-decoration: none; margin: 0 6px; transition: color 0.2s; }
@@ -153,7 +152,7 @@
             .blog-layout { grid-template-columns: 1fr; gap: 30px; padding: 40px 16px; }
         }
         @media screen and (max-width: 768px) {
-            header { flex-direction: column; padding: 15px; text-align: center; position: static; }
+            header { flex-direction: column; padding: 15px; text-align: center; }
             header nav { margin-top: 10px; font-size: 0.85rem; }
             .blog-hero { padding: 40px 16px 30px; }
             .blog-hero h1 { font-size: 1.6rem; }

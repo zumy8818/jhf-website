@@ -1,0 +1,24 @@
+/* ===== 全ページ共通スタイル（/style.css） =====
+   TOP / MESSAGE / SYSTEM / BLOG / 記事ページ が <link rel="stylesheet" href="/style.css"> で
+   読み込む共通ファイル。各ページ固有の装飾は各HTMLの <style> に書き、ここには
+   全ページに効かせたい指定だけを置く。
+   ※ ABOUT ページだけは css/style.css（.site-header）を使用している。 */
+
+/* ヘッダーをスクロールしても画面上部に固定表示する */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100; /* 画像・地図・ヒーロー文字（z-index: 2）より前面に出す */
+}
+
+/* ページ内アンカーへ移動した時、固定ヘッダーの下に見出しが潜り込まないようにする */
+html {
+  scroll-padding-top: 80px;
+}
+
+@media screen and (max-width: 768px) {
+  /* スマホ幅はヘッダーが縦積み（ロゴ＋ナビ）になり背が高くなる */
+  html {
+    scroll-padding-top: 120px;
+  }
+}
