@@ -30,31 +30,35 @@
     justify-content: center;
 }
 
-/* 3. 画像：高さを100%に固定し、横幅は自動調整して中央配置 */
+/* 3. 画像：枠いっぱいに敷き詰めて、全画像の見た目サイズを統一（1920×1080に揃えた写真を使用） */
 .slider img {
     position: absolute;
-    max-width: 100%;          /* 横がはみ出さないように制限 */
-    max-height: 100%;         /* 高さを枠内に収める */
-    width: auto;              /* 比率を維持 */
-    height: auto;             /* 比率を維持 */
-    
-    /* 中央配置のダメ押し */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    object-fit: contain;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;        /* 比率を保ったまま枠を埋める（はみ出た分は切れる） */
+    object-position: center;
     opacity: 0;
-    animation: slideShow 28s infinite;
+    animation: slideShow 20s infinite;
 }
 
-/* アニメーションの transform を修正（中央配置を維持するため） */
+/* フェードしながらゆっくり寄る */
 @keyframes slideShow {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(1.0); }
+    0% { opacity: 0; transform: scale(1.0); }
     5% { opacity: 1; }
-    15% { opacity: 1; }
-    20% { opacity: 0; transform: translate(-50%, -50%) scale(1.05); }
+    20% { opacity: 1; }
+    25% { opacity: 0; transform: scale(1.05); }
     100% { opacity: 0; }
+}
+
+/* 文字を読みやすくするため、写真の上に薄い暗幕を重ねる */
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
 /* テキストを画像の上に重ねる */
@@ -73,7 +77,11 @@
         .hero { height: 80vh; background: #eee; display: flex; align-items: center; justify-content: center; text-align: center; }
         .hero h1 { font-size: 3rem; letter-spacing: 0.1em; }
         section { padding: 80px 50px; text-align: center; }
-        .message-grid { display: flex; justify-content: space-around; margin-top: 40px; }
+        .message-grid { display: flex; justify-content: space-around; gap: 24px; margin-top: 40px; }
+        /* 「安全」「伝統」「技術」を黒の細線で囲み、境目を分かりやすくする */
+        .msg-item { flex: 1; border: 1px solid #333; padding: 24px 20px; box-sizing: border-box; }
+        .msg-item h3 { margin-top: 0; }
+        .msg-item p { margin-bottom: 0; line-height: 1.8; }
 
         /* 牧場日記セクション */
         #blog {
@@ -121,6 +129,7 @@
             header { flex-direction: column; padding: 15px; text-align: center; }
             header nav { margin-top: 10px; font-size: 0.9rem; }
             section { padding: 50px 16px; }
+            .message-grid { flex-direction: column; gap: 16px; }
             #blog { padding: 60px 16px; }
             #blog h2 { font-size: 1.6rem; }
             .blog-cta { padding: 16px 40px; font-size: 1rem; letter-spacing: 0.12em; }
@@ -136,13 +145,11 @@
 
     <div class="hero">
     <div class="slider">
-        <img src="assets/photo/IMG_1442.JPG" alt="牛1">
-        <img src="assets/photo/IMG_1443.JPG" alt="牛2">
-        <img src="assets/photo/IMG_1447.JPG" alt="牛3">
-        <img src="assets/photo/IMG_1448.JPG" alt="牛4">
-        <img src="assets/photo/IMG_1451.JPG" alt="牛5">
-        <img src="assets/photo/IMG_1452.JPG" alt="牛6">
-        <img src="assets/photo/IMG_1455.JPG" alt="牛7">
+        <img src="assets/photo/top/top-01.jpg" alt="雲海と産山の草原" width="1920" height="1080">
+        <img src="assets/photo/top/top-02.jpg" alt="夕方の草原で牛と過ごすスタッフ" width="1920" height="1080" loading="lazy">
+        <img src="assets/photo/top/top-03.jpg" alt="阿蘇の山並みと放牧の牛" width="1920" height="1080" loading="lazy">
+        <img src="assets/photo/top/top-04.jpg" alt="牧草地で作業するトラクター" width="1920" height="1080" loading="lazy">
+        <img src="assets/photo/top/top-05.jpg" alt="青空と阿蘇の山並み、黒毛和牛の群れ" width="1920" height="1080" loading="lazy">
     </div>
     <div class="hero-text">
         <h1>産山の風土と、親子三代の絆。<br><span>まっすぐな牛づくりを、この大地から。</span></h1>
